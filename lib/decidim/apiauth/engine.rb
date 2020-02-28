@@ -38,7 +38,7 @@ module Decidim
         # See:
         # https://github.com/waiting-for-dev/devise-jwt/issues/159
         Warden::JWTAuth.configure do |jwt|
-          defaults = Devise::JWT::DefaultsGenerator.call
+          defaults = ::Devise::JWT::DefaultsGenerator.call
 
           jwt.mappings = defaults[:mappings]
           jwt.secret = Rails.application.secrets.secret_key_jwt
