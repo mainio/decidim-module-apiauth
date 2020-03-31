@@ -14,6 +14,16 @@ module Decidim
       end
 
       def respond_with(resource, _opts = {})
+        if request.env[::Warden::JWTAuth::Middleware::TokenDispatcher::ENV_KEY]
+          # Some systems (that's you Microsoft Power Automate (Flow)) may be
+          # parsing off the headers which makes it difficult for the API users
+          # to get the bearer token. This allows them to get it from the request
+          # body instead.
+          return render json: resource.serializable_hash.merge(
+            jwt_token: request.env[::Warden::JWTAuth::Hooks::PREPARED_TOKEN_ENV_KEY]
+          )
+        end
+
         render json: resource
       end
 
