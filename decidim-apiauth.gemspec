@@ -26,11 +26,7 @@ Gem::Specification.new do |spec|
 
   spec.add_dependency "decidim-api", Decidim::Apiauth::DECIDIM_VERSION
   spec.add_dependency "decidim-core", Decidim::Apiauth::DECIDIM_VERSION
-  spec.add_dependency "devise-jwt", "~> 0.6.0"
-
-  # Issues with newer versions of dry-configurable, see:
-  # https://github.com/waiting-for-dev/devise-jwt/issues/159
-  spec.add_dependency "dry-configurable", "~> 0.9.0"
+  spec.add_dependency "devise-jwt", "~> 0.7.0"
 
   spec.add_development_dependency "decidim-dev", Decidim::Apiauth::DECIDIM_VERSION
 end
