@@ -8,7 +8,7 @@ module Decidim
     describe SessionsController, type: :controller do
       routes { Decidim::Apiauth::Engine.routes }
 
-      let!(:organization) { create(:organization) }
+      let(:organization) { create(:organization) }
       let(:email) { "admin@example.org" }
       let(:password) { "decidim123456" }
       let!(:user) { create(:user, :confirmed, :admin, organization: organization, email: email, password: password) }
@@ -24,16 +24,17 @@ module Decidim
       before do
         @request.env["devise.mapping"] = Devise.mappings[:user]
         @request.env[::Warden::JWTAuth::Middleware::TokenDispatcher::ENV_KEY] = "warden-jwt_auth.token_dispatcher"
-        @request.host = organization.host
+        @request.env["decidim.current_organization"] = organization
       end
 
-      it "signs in" do
-        # allow(Decidim::User).to receive(:find_for_authentication).and_return(user)
-        headers = { "Accept": "application/json", "Content-Type": "application/json" }
-        auth_headers = Devise::JWT::TestHelpers.auth_headers(headers, user)
-        request.headers.merge!(auth_headers)
-        post :create, params: params # headers: auth_headers
-        puts response.body
+      describe "sign in" do
+        it "returns jwt_token" do
+          expect(request.env[::Warden::JWTAuth::Hooks::PREPARED_TOKEN_ENV_KEY]).not_to be_present
+          post :create, params: params
+          expect(request.env[::Warden::JWTAuth::Hooks::PREPARED_TOKEN_ENV_KEY]).to be_present
+          parsed_response = JSON.parse(response.body)
+          expect(parsed_response["jwt_token"]).to eq(request.env[::Warden::JWTAuth::Hooks::PREPARED_TOKEN_ENV_KEY])
+        end
       end
     end
   end
