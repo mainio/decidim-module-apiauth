@@ -18,4 +18,3 @@ spec/decidim_dummy_app
 
 # default development application
 development_app
-config/secrets.yml
