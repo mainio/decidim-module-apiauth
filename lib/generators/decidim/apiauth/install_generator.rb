@@ -6,7 +6,6 @@ module Decidim
   module Apiauth
     module Generators
       class InstallGenerator < Rails::Generators::Base
-
         def enable_authentication
           secret = SecureRandom.hex(64)
           secrets_path = Rails.application.root.join("config", "secrets.yml")
