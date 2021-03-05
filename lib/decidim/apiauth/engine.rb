@@ -21,7 +21,8 @@ module Decidim
       initializer "decidim_apiauth.configure" do |app|
         app.initializers.find { |a| a.name == "devise-jwt-middleware" }.context_class.instance.initializers.reject! { |a| a.name == "devise-jwt-middleware" }
 
-        app.middleware.use Warden::JWTAuth::Middleware
+        # This is added twice
+        # app.middleware.use Warden::JWTAuth::Middleware
       end
 
       config.to_prepare do

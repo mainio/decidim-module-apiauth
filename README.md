@@ -61,7 +61,20 @@ abcdef123456... <-- (This printed line is the secret)
 
 ## Usage
 
-TBD
+1. Login
+```
+curl --location --request POST 'http://localhost:3000/api/sign_in' \
+--form 'user[email]="admin@example.org"' \
+--form 'user[password]="decidim123456"'
+```
+2. Save [jwt](https://jwt.io/introduction) web token from response
+3. Include token to further requests
+```
+curl --location --request POST 'http://localhost:3000/api' \
+--header 'Authorization: Bearer replace_this_with_token' \
+--header 'Content-Type: application/json' \
+--data-raw '{"query":"{\n  session {\nuser {\n id\n nickname\n}\n}\n}","variables":{}}'
+```
 
 ## Contributing
 
