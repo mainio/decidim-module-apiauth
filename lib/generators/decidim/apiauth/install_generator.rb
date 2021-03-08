@@ -17,20 +17,20 @@ module Decidim
           secrets_path = Rails.application.root.join("config", "secrets.yml")
           secrets = YAML.safe_load(File.read(secrets_path), [], [], true)
 
-          return if secrets["test"]["secret_key_jwt"]
+          return if secrets.dig(:test, :secret_key_jwt)
           return unless options[:test_initializer]
 
           index = nil
           i = 0
           lines = IO.readlines(secrets_path).map do |line|
-            index = i if line =~ /^test:/
+            index = i if line.match?(/^test:/)
             i += 1
             line
           end
 
           raise StandardError.new(self, "Cant find test section in secrets!") unless index
 
-          lines.insert(index + 3, "  secret_key_jwt: #{SecureRandom.hex(64)} \n")
+          lines.insert(index + 3, "  secret_key_jwt: #{SecureRandom.hex(64)}\n")
           File.open(secrets_path, "w") do |file|
             file.puts lines
           end
