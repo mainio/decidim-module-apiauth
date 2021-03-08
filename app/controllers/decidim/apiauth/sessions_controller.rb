@@ -15,13 +15,16 @@ module Decidim
 
       def respond_with(resource, _opts = {})
         if request.env[::Warden::JWTAuth::Middleware::TokenDispatcher::ENV_KEY]
+          jwt_token = request.env[::Warden::JWTAuth::Hooks::PREPARED_TOKEN_ENV_KEY]
+          status = jwt_token ? 200 : 403
+
           # Some systems (that's you Microsoft Power Automate (Flow)) may be
           # parsing off the headers which makes it difficult for the API users
           # to get the bearer token. This allows them to get it from the request
           # body instead.
           return render json: resource.serializable_hash.merge(
-            jwt_token: request.env[::Warden::JWTAuth::Hooks::PREPARED_TOKEN_ENV_KEY]
-          )
+            jwt_token: jwt_token
+          ), status: status
         end
 
         render json: resource
@@ -29,27 +32,6 @@ module Decidim
 
       def respond_to_on_destroy
         head :ok
-      end
-
-      def render_resource(resource)
-        if resource.errors.empty?
-          render json: resource
-        else
-          validation_error(resource)
-        end
-      end
-
-      def validation_error(resource)
-        render json: {
-          errors: [
-            {
-              status: "400",
-              title: "Bad Request",
-              detail: resource.errors,
-              code: "100"
-            }
-          ]
-        }, status: :bad_request
       end
     end
   end

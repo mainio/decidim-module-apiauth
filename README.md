@@ -1,6 +1,6 @@
 # Decidim::Apiauth
 
-[![Build Status](https://travis-ci.com/mainio/decidim-module-apiauth.svg?branch=master)](https://travis-ci.com/mainio/decidim-module-apiauth)
+[![Build Status](https://github.com/mainio/decidim-module-apiauth/actions/workflows/ci_apiauth.yml/badge.svg)](https://github.com/mainio/decidim-module-apiauth/actions)
 [![codecov](https://codecov.io/gh/mainio/decidim-module-apiauth/branch/master/graph/badge.svg)](https://codecov.io/gh/mainio/decidim-module-apiauth)
 
 A [Decidim](https://github.com/decidim/decidim) module to add JWT token based

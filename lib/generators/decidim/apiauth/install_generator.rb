@@ -6,9 +6,19 @@ module Decidim
   module Apiauth
     module Generators
       class InstallGenerator < Rails::Generators::Base
-        def enable_authentication
-          secret = SecureRandom.hex(64)
+        class_option(
+          :test_initializer,
+          desc: "Defines whether to add jwt secret to to application",
+          type: :boolean,
+          default: false
+        )
+
+        def add_jwt_secret
           secrets_path = Rails.application.root.join("config", "secrets.yml")
+          secrets = YAML.safe_load(File.read(secrets_path), [], [], true)
+
+          return if secrets["test"]["secret_key_jwt"]
+          return unless options[:test_initializer]
 
           index = nil
           i = 0
@@ -17,11 +27,12 @@ module Decidim
             i += 1
             line
           end
-          unless lines[index + 3].include?("secret_key_jwt")
-            lines.insert(index + 3, "  secret_key_jwt: #{secret}")
-            File.open(secrets_path, "w") do |file|
-              file.puts lines
-            end
+
+          raise StandardError.new(self, "Cant find test section in secrets!") unless index
+
+          lines.insert(index + 3, "  secret_key_jwt: #{SecureRandom.hex(64)} \n")
+          File.open(secrets_path, "w") do |file|
+            file.puts lines
           end
         end
       end
