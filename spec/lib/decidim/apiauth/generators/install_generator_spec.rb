@@ -12,9 +12,9 @@ describe Decidim::Apiauth::Generators::InstallGenerator do
   let(:final_lines) { ["test:", "development:", "production:", "  secret_key_jwt: 1o3m3g7\n"] }
 
   it "adds secret_key_jwt to the secrets.yml file" do
-    # rubocop:disable Rspec/SubjectStub
+    # rubocop:disable RSpec/SubjectStub
     allow(subject).to receive(:options).and_return(options)
-    # rubocop:enable Rspec/SubjectStub
+    # rubocop:enable RSpec/SubjectStub
     allow(SecureRandom).to receive(:hex).and_return(example_token)
     allow(YAML).to receive(:safe_load).and_return({})
     allow(IO).to receive(:readlines).and_return(orginal_lines)

@@ -11,23 +11,24 @@ base_path = "../" if File.basename(__dir__) == "development_app"
 require_relative "#{base_path}lib/decidim/apiauth/version"
 
 DECIDIM_VERSION = Decidim::Apiauth::DECIDIM_VERSION
-# DECIDIM_VERSION = { github: "decidim/decidim", branch: "release/0.23-stable" }.freeze
+# DECIDIM_VERSION = { github: "decidim/decidim", branch: "release/0.24-stable" }.freeze
 
 gem "decidim", DECIDIM_VERSION
 gem "decidim-apiauth", path: "."
 
 gem "bootsnap", "~> 1.4"
-gem "puma", "~> 4.3.3"
+gem "puma", ">= 5.0.0"
 gem "uglifier", "~> 4.1"
 
 group :development, :test do
   gem "byebug", "~> 11.0", platform: :mri
   gem "decidim-dev", DECIDIM_VERSION
+  gem "rubocop-faker"
   gem "rubocop-performance", "~> 1.6.0"
 end
 
 group :development do
-  gem "faker", "~> 1.9"
+  gem "faker", "~> 2.14"
   gem "letter_opener_web", "~> 1.3"
   gem "listen", "~> 3.1"
   gem "spring", "~> 2.0"

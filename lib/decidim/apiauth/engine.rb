@@ -24,7 +24,7 @@ module Decidim
 
       config.to_prepare do
         # Model extensions
-        Decidim::User.send(:include, Decidim::Apiauth::ApiAuthentication)
+        Decidim::User.include Decidim::Apiauth::ApiAuthentication
       end
 
       config.after_initialize do
