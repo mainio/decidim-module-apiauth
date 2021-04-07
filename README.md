@@ -76,6 +76,21 @@ curl --location --request POST 'http://localhost:3000/api' \
 --data-raw '{"query":"{\n  session {\nuser {\n id\n nickname\n}\n}\n}","variables":{}}'
 ```
 
+## Configuration
+
+By default, API authentication is necessary if the Decidim organization is set
+to force authentication.
+
+If you want to make API authentication necessary for public instances, you can
+use the following configuration option:
+
+```ruby
+# config/initializers/decidim.rb
+Decidim::Apiauth.configure do |config|
+  config.force_api_authentication = true
+end
+```
+
 ## Contributing
 
 See [Decidim](https://github.com/decidim/decidim).
