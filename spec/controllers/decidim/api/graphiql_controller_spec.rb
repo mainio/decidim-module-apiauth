@@ -5,7 +5,7 @@ require "spec_helper"
 module Decidim
   module Api
     describe GraphiQLController, type: :controller do
-      controller Decidim::Api::GraphiQLController do
+      controller described_class do
         def show; end
       end
 
