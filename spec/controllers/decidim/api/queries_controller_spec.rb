@@ -13,8 +13,14 @@ module Decidim
       let(:query) { "{session{user{id nickname}}}" }
 
       context "without token" do
+        before do
+          request.env["decidim.current_organization"] = organization
+        end
+
         it "redirects to sign in" do
-          post :create, params: { query: query }
+          post :create, format: :json, params: { query: query }
+          expect(response).to have_http_status(:redirect)
+          expect(response).to redirect_to("/users/sign_in")
           expect(response.body).to include("redirected")
         end
       end
@@ -29,6 +35,24 @@ module Decidim
 
         it "executes a query" do
           post :create, params: { query: query }
+          parsed_response = JSON.parse(response.body)["data"]
+          expect(parsed_response["session"]["user"]["id"].to_i).to eq(user.id)
+          expect(parsed_response["session"]["user"]["nickname"]).to eq(user.nickname.prepend("@"))
+        end
+      end
+
+      context "when using the force API authentication configuration" do
+        let(:organization) { create :organization }
+        let(:auth_headers) { Devise::JWT::TestHelpers.auth_headers({}, user) }
+
+        it_behaves_like "a force authentication controller", :post, :create
+
+        it "executes a query when authenticated" do
+          allow(Decidim::Apiauth).to receive(:force_api_authentication).and_return(true)
+          request.env["decidim.current_organization"] = organization
+          request.headers.merge!(auth_headers)
+
+          post :create, format: :json, params: { query: query }
           parsed_response = JSON.parse(response.body)["data"]
           expect(parsed_response["session"]["user"]["id"].to_i).to eq(user.id)
           expect(parsed_response["session"]["user"]["nickname"]).to eq(user.nickname.prepend("@"))
