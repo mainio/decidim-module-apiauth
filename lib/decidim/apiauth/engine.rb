@@ -24,7 +24,19 @@ module Decidim
 
       config.to_prepare do
         # Model extensions
-        Decidim::User.send(:include, Decidim::Apiauth::ApiAuthentication)
+        Decidim::User.include Decidim::Apiauth::ApiAuthentication
+
+        # Add a concern to the API controllers that adds the force login logic
+        # when configured through `Decidim::Apiauth.force_api_authentication`.
+        Decidim::Api::ApplicationController.include(
+          Decidim::Apiauth::ForceApiAuthentication
+        )
+        # The GraphiQLController is not extending
+        # Decidim::Api::ApplicationController which is why this needs to be
+        # separately loaded for that too.
+        Decidim::Api::GraphiQLController.include(
+          Decidim::Apiauth::ForceApiAuthentication
+        )
       end
 
       config.after_initialize do
