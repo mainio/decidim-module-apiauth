@@ -29,7 +29,7 @@ module Decidim
         before do
           request.env["decidim.current_organization"] = organization
           headers = { "Accept": "application/json", "Content-Type": "application/json" }
-          auth_headers = Devise::JWT::TestHelpers.auth_headers(headers, user)
+          auth_headers = ::Devise::JWT::TestHelpers.auth_headers(headers, user)
           request.headers.merge!(auth_headers)
         end
 
@@ -43,7 +43,7 @@ module Decidim
 
       context "when using the force API authentication configuration" do
         let(:organization) { create :organization }
-        let(:auth_headers) { Devise::JWT::TestHelpers.auth_headers({}, user) }
+        let(:auth_headers) { ::Devise::JWT::TestHelpers.auth_headers({}, user) }
 
         it_behaves_like "a force authentication controller", :post, :create
 

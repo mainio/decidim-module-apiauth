@@ -30,7 +30,7 @@ module Decidim
       end
 
       before do
-        @request.env["devise.mapping"] = Devise.mappings[:user]
+        @request.env["devise.mapping"] = ::Devise.mappings[:user]
         @request.env[::Warden::JWTAuth::Middleware::TokenDispatcher::ENV_KEY] = "warden-jwt_auth.token_dispatcher"
         @request.env["decidim.current_organization"] = organization
       end
