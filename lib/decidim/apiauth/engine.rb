@@ -22,21 +22,23 @@ module Decidim
         app.initializers.find { |a| a.name == "devise-jwt-middleware" }.context_class.instance.initializers.reject! { |a| a.name == "devise-jwt-middleware" }
       end
 
-      config.to_prepare do
-        # Model extensions
-        Decidim::User.include Decidim::Apiauth::ApiAuthentication
+      initializer "decidim_apiauth_customizations", after: "decidim.action_controller" do
+        config.to_prepare do
+          # Model extensions
+          Decidim::User.include Decidim::Apiauth::ApiAuthentication
 
-        # Add a concern to the API controllers that adds the force login logic
-        # when configured through `Decidim::Apiauth.force_api_authentication`.
-        Decidim::Api::ApplicationController.include(
-          Decidim::Apiauth::ForceApiAuthentication
-        )
-        # The GraphiQLController is not extending
-        # Decidim::Api::ApplicationController which is why this needs to be
-        # separately loaded for that too.
-        Decidim::Api::GraphiQLController.include(
-          Decidim::Apiauth::ForceApiAuthentication
-        )
+          # Add a concern to the API controllers that adds the force login logic
+          # when configured through `Decidim::Apiauth.force_api_authentication`.
+          Decidim::Api::ApplicationController.include(
+            Decidim::Apiauth::ForceApiAuthentication
+          )
+          # The GraphiQLController is not extending
+          # Decidim::Api::ApplicationController which is why this needs to be
+          # separately loaded for that too.
+          Decidim::Api::GraphiQLController.include(
+            Decidim::Apiauth::ForceApiAuthentication
+          )
+        end
       end
 
       config.after_initialize do
