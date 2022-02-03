@@ -4,19 +4,18 @@ require "spec_helper"
 
 module Decidim
   module Api
-    # TODO: Fix force authentication tests
-    # describe GraphiQLController, type: :controller do
-    #   controller described_class do
-    #     def show; end
-    #   end
+    describe GraphiQLController, type: :controller do
+      controller described_class do
+        def show; end
+      end
 
-    #   before do
-    #     routes.draw do
-    #       get "show" => "graphiql/rails/editors#show"
-    #     end
-    #   end
+      before do
+        routes.draw do
+          get "show" => "decidim/api/graphiql#show"
+        end
+      end
 
-    #   it_behaves_like "a force authentication controller", :get, :show
-    # end
+      it_behaves_like "a force authentication controller", :get, :show
+    end
   end
 end
