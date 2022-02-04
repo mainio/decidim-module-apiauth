@@ -28,6 +28,7 @@ module Decidim
           ), status: status
         end
 
+        # Since avatar can be ActiveStorage object now, it can cause infinite loop
         render json: resource.serializable_hash.merge("avatar" => nil)
       end
 
