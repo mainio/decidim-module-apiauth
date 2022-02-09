@@ -11,7 +11,7 @@ module Decidim
 
       before do
         routes.draw do
-          get "show" => "graphiql/rails/editors#show"
+          get "show" => "decidim/api/graphiql#show"
         end
       end
 
