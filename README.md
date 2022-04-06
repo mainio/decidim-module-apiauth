@@ -80,10 +80,11 @@ curl --location --request POST 'http://localhost:3000/api' \
 
 In case you run into problems like getting: `` {"data":{"session":null}} ``
 
-1. In production / staing check that request URL has https protocol (not http)!
-2. Make sure that request has ```Content-Type: application/json``` and ```Content-Length```
-3. If you are using [Postman](https://www.postman.com/), create clean new request
-4. Make sure that secrets (secrets.yml) are entered correctly:
+1. Make sure you aren't logged already
+2. In production / staing check that request URL has https protocol (not http)!
+3. Make sure that request has ```Content-Type: application/json``` and ```Content-Length```
+4. If you are using [Postman](https://www.postman.com/), create clean new request
+5. Make sure that secrets (secrets.yml) are entered correctly:
 ``
 secret_key_jwt: <%= ENV["SECRET_KEY_JWT"] %>
 ``
