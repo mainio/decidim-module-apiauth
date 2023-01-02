@@ -15,14 +15,15 @@ module Decidim
 
         def add_jwt_secret
           secrets_path = Rails.application.root.join("config", "secrets.yml")
-          secrets = YAML.safe_load(File.read(secrets_path), [], [], true)
+          evaluated_secrets = ERB.new(File.read(secrets_path))
+          secrets = YAML.safe_load(evaluated_secrets.result, [], [], true)
 
           return if secrets.dig(:test, :secret_key_jwt)
           return unless options[:test_initializer]
 
           index = nil
           i = 0
-          lines = IO.readlines(secrets_path).map do |line|
+          lines = File.readlines(secrets_path).map do |line|
             index = i if line.match?(/^test:/)
             i += 1
             line

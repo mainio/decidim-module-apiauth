@@ -5,9 +5,10 @@ $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 require "decidim/apiauth/version"
 
 Gem::Specification.new do |spec|
+  spec.metadata = { "rubygems_mfa_required" => "true" }
   spec.name = "decidim-apiauth"
   spec.version = Decidim::Apiauth::VERSION
-  spec.required_ruby_version = ">= 2.7"
+  spec.required_ruby_version = ">= 3.0"
   spec.authors = ["Antti Hukkanen"]
   spec.email = ["antti.hukkanen@mainiotech.fi"]
 

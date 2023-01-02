@@ -8,7 +8,7 @@ RSpec.describe "Api authentication", type: :request do
 
   let(:organization) { create(:organization) }
   let(:email) { "admin@example.org" }
-  let(:password) { "decidim123456" }
+  let(:password) { "decidim123456789" }
   let!(:user) { create(:user, :confirmed, :admin, organization: organization, email: email, password: password) }
   let(:params) do
     {
@@ -50,10 +50,10 @@ RSpec.describe "Api authentication", type: :request do
 
   it "signs out" do
     post sign_in_path, params: params
-    expect(response).to have_http_status(200)
+    expect(response).to have_http_status(:ok)
     authorzation = response.headers["Authorization"]
     orginal_count = Decidim::Apiauth::JwtBlacklist.count
-    delete sign_out_path, params: {}, headers: { "HTTP_AUTHORIZATION": authorzation }
+    delete sign_out_path, params: {}, headers: { HTTP_AUTHORIZATION: authorzation }
     expect(Decidim::Apiauth::JwtBlacklist.count).to eq(orginal_count + 1)
   end
 
@@ -64,7 +64,7 @@ RSpec.describe "Api authentication", type: :request do
 
     it "can use token to post to api" do
       authorzation = response.headers["Authorization"]
-      post "/api", params: { query: query }, headers: { "HTTP_AUTHORIZATION": authorzation }
+      post "/api", params: { query: query }, headers: { HTTP_AUTHORIZATION: authorzation }
       parsed_response = JSON.parse(response.body)["data"]
       expect(parsed_response["session"]["user"]["id"].to_i).to eq(user.id)
       expect(parsed_response["session"]["user"]["nickname"]).to eq(user.nickname.prepend("@"))

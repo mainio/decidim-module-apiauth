@@ -28,7 +28,7 @@ module Decidim
       context "when request header includes token" do
         before do
           request.env["decidim.current_organization"] = organization
-          headers = { "Accept": "application/json", "Content-Type": "application/json" }
+          headers = { Accept: "application/json", "Content-Type": "application/json" }
           auth_headers = ::Devise::JWT::TestHelpers.auth_headers(headers, user)
           request.headers.merge!(auth_headers)
         end
