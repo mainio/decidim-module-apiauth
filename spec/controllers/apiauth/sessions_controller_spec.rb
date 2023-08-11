@@ -58,6 +58,27 @@ module Decidim
           parsed_response_body = JSON.parse(response.body)
           expect(parsed_response_body.has_key?("jwt_token")).to be(false)
         end
+
+        context "with normal sign in" do
+          before do
+            allow(::Decidim::Apiauth).to receive(:force_api_authentication).and_return(false)
+          end
+
+          it "returns jwt_token when credentials are valid" do
+            expect(request.env[::Warden::JWTAuth::Hooks::PREPARED_TOKEN_ENV_KEY]).not_to be_present
+            post :create, params: params
+            expect(response).to have_http_status(:ok)
+            expect(request.env[::Warden::JWTAuth::Hooks::PREPARED_TOKEN_ENV_KEY]).to be_present
+            parsed_response_body = JSON.parse(response.body)
+            expect(parsed_response_body["jwt_token"]).to eq(request.env[::Warden::JWTAuth::Hooks::PREPARED_TOKEN_ENV_KEY])
+          end
+
+          it "returns 403 when credentials are invalid" do
+            post :create, params: invalid_params
+            expect(response).to have_http_status(:forbidden)
+            expect(request.env[::Warden::JWTAuth::Hooks::PREPARED_TOKEN_ENV_KEY]).not_to be_present
+          end
+        end
       end
     end
   end
