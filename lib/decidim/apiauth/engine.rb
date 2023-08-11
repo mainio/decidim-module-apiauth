@@ -23,6 +23,15 @@ module Decidim
       end
 
       initializer "decidim_apiauth_customizations", after: "decidim.action_controller" do
+        # To be compatibale with Turbo, from Devise v.4.9.0 on, devise keep error status for validation as :ok, and sets
+        # the redirect_status as :found. However, these configuration options is devised to change this behavior as
+        # needed(for more information refer to https://github.com/heartcombo/devise/blob/v4.9.0/CHANGELOG.md#490---2023-02-17):
+        ActiveSupport.on_load(:devise_failure_app) do
+          Devise.setup do |config|
+            config.responder.error_status = :forbidden
+          end
+        end
+
         config.to_prepare do
           # Model extensions
           Decidim::User.include Decidim::Apiauth::ApiAuthentication
