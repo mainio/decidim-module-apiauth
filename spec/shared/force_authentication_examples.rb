@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 shared_examples "a force authentication controller" do |method, action|
-  let(:user) { create(:user, :confirmed, organization: organization) }
+  let(:user) { create(:user, :confirmed, organization:) }
   let!(:organization) { create(:organization) }
 
   before do

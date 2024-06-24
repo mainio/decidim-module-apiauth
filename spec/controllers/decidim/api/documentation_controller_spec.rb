@@ -4,7 +4,7 @@ require "spec_helper"
 
 module Decidim
   module Api
-    describe DocumentationController, type: :controller do
+    describe DocumentationController do
       routes { Decidim::Api::Engine.routes }
 
       it_behaves_like "a force authentication controller", :get, :show
