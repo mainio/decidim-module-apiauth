@@ -16,7 +16,7 @@ module Decidim
         def add_jwt_secret
           secrets_path = Rails.application.root.join("config", "secrets.yml")
           evaluated_secrets = ERB.new(File.read(secrets_path))
-          secrets = YAML.safe_load(evaluated_secrets.result, [], [], true)
+          secrets = YAML.safe_load(evaluated_secrets.result, aliases: true)
 
           return if secrets.dig(:test, :secret_key_jwt)
           return unless options[:test_initializer]
