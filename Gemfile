@@ -22,7 +22,9 @@ gem "uglifier", "~> 4.1"
 group :development, :test do
   gem "byebug", "~> 11.0", platform: :mri
   gem "decidim-dev", DECIDIM_VERSION
+  gem "rubocop", "~>1.4"
   gem "rubocop-faker"
+  gem "rubocop-rspec", "2.20"
   gem "rubocop-performance", "~> 1.6.0"
 end
 
