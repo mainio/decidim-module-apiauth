@@ -8,7 +8,7 @@ module Decidim
       class InstallGenerator < Rails::Generators::Base
         class_option(
           :test_initializer,
-          desc: "Defines whether to add jwt secret to to application",
+          desc: "Defines whether to add jwt secret to application",
           type: :boolean,
           default: false
         )
