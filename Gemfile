@@ -29,6 +29,10 @@ group :development, :test do
   gem "rubocop-faker"
   gem "rubocop-performance", "~> 1.6.0"
   gem "rubocop-rspec", "2.20"
+
+  # Fix issue with simplecov-cobertura
+  # See: https://github.com/jessebs/simplecov-cobertura/pull/44
+  gem "rexml", "3.4.1"
 end
 
 group :development do
