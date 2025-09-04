@@ -28,5 +28,5 @@ Gem::Specification.new do |spec|
 
   spec.add_dependency "decidim-api", Decidim::Apiauth.decidim_version
   spec.add_dependency "decidim-core", Decidim::Apiauth.decidim_version
-  spec.add_dependency "devise-jwt", "~> 0.11.0"
+  spec.add_dependency "devise-jwt", "~> 0.12.1"
 end
