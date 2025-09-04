@@ -7,7 +7,7 @@ require "decidim/apiauth/version"
 Gem::Specification.new do |spec|
   spec.metadata = { "rubygems_mfa_required" => "true" }
   spec.name = "decidim-apiauth"
-  spec.version = Decidim::Apiauth::VERSION
+  spec.version = Decidim::Apiauth.version
   spec.required_ruby_version = ">= 3.1"
   spec.authors = ["Antti Hukkanen"]
   spec.email = ["antti.hukkanen@mainiotech.fi"]
@@ -26,9 +26,9 @@ Gem::Specification.new do |spec|
 
   spec.require_paths = ["lib"]
 
-  spec.add_dependency "decidim-api", Decidim::Apiauth::DECIDIM_VERSION
-  spec.add_dependency "decidim-core", Decidim::Apiauth::DECIDIM_VERSION
+  spec.add_dependency "decidim-api", Decidim::Apiauth.decidim_version
+  spec.add_dependency "decidim-core", Decidim::Apiauth.decidim_version
   spec.add_dependency "devise-jwt", "~> 0.11.0"
 
-  spec.add_development_dependency "decidim-dev", Decidim::Apiauth::DECIDIM_VERSION
+  spec.add_development_dependency "decidim-dev", Decidim::Apiauth.decidim_version
 end

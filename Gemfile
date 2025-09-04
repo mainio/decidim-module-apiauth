@@ -10,7 +10,7 @@ base_path = ""
 base_path = "../" if File.basename(__dir__) == "development_app"
 require_relative "#{base_path}lib/decidim/apiauth/version"
 
-DECIDIM_VERSION = Decidim::Apiauth::DECIDIM_VERSION
+DECIDIM_VERSION = Decidim::Apiauth.decidim_version
 
 gem "decidim", DECIDIM_VERSION
 gem "decidim-apiauth", path: "."
@@ -19,6 +19,9 @@ gem "bootsnap", "~> 1.17"
 gem "puma", ">= 6.4.2"
 gem "uglifier", "~> 4.1"
 
+# See: https://github.com/decidim/decidim/pull/13879
+gem "concurrent-ruby", "1.3.4"
+
 group :development, :test do
   gem "byebug", "~> 11.0", platform: :mri
   gem "decidim-dev", DECIDIM_VERSION
@@ -26,7 +29,7 @@ group :development, :test do
   # rubocop & rubocop-rspec are set to the following versions because of a change where FactoryBot/CreateList
   # must be a boolean instead of contextual. These version locks can be removed when this problem is handled
   # through decidim-dev.
-  gem "rubocop", "~>1.28"
+  gem "rubocop", "~> 1.28"
   gem "rubocop-faker"
   gem "rubocop-performance", "~> 1.6.0"
   gem "rubocop-rspec", "2.20"

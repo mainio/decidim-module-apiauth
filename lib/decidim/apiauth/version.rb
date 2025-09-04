@@ -2,7 +2,12 @@
 
 module Decidim
   module Apiauth
-    VERSION = "0.28.0"
-    DECIDIM_VERSION = "~> 0.28.0"
+    def self.version
+      "0.28.0"
+    end
+
+    def self.decidim_version
+      "~> 0.28.0"
+    end
   end
 end
