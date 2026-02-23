@@ -19,6 +19,9 @@ gem "bootsnap", "~> 1.17"
 gem "puma", ">= 6.4.2"
 gem "uglifier", "~> 4.1"
 
+# This locks nokogiri to a version < 1.17 so it doesn't cause issues
+gem "nokogiri", "1.16.8"
+
 group :development, :test do
   gem "byebug", "~> 11.0", platform: :mri
   gem "decidim-dev", DECIDIM_VERSION
@@ -30,13 +33,15 @@ group :development, :test do
   gem "rubocop-faker"
   gem "rubocop-performance", "~> 1.6.0"
   gem "rubocop-rspec", "2.20"
+
+  # Fix issue with simplecov-cobertura
+  # See: https://github.com/jessebs/simplecov-cobertura/pull/44
+  gem "rexml", "3.4.1"
 end
 
 group :development do
   gem "faker", "~> 3.2.2"
   gem "letter_opener_web", "~> 2.0"
   gem "listen", "~> 3.8"
-  gem "spring", "~> 4.1.3"
-  gem "spring-watcher-listen", "~> 2.1"
   gem "web-console", "~> 4.2"
 end
