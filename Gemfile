@@ -10,14 +10,13 @@ base_path = ""
 base_path = "../" if File.basename(__dir__) == "development_app"
 require_relative "#{base_path}lib/decidim/apiauth/version"
 
-DECIDIM_VERSION = Decidim::Apiauth::DECIDIM_VERSION
+DECIDIM_VERSION = Decidim::Apiauth.decidim_version
 
 gem "decidim", DECIDIM_VERSION
 gem "decidim-apiauth", path: "."
 
 gem "bootsnap", "~> 1.17"
 gem "puma", ">= 6.4.2"
-gem "uglifier", "~> 4.1"
 
 # This locks nokogiri to a version < 1.17 so it doesn't cause issues
 gem "nokogiri", "1.16.8"
@@ -29,7 +28,7 @@ group :development, :test do
   # rubocop & rubocop-rspec are set to the following versions because of a change where FactoryBot/CreateList
   # must be a boolean instead of contextual. These version locks can be removed when this problem is handled
   # through decidim-dev.
-  gem "rubocop", "~>1.28"
+  gem "rubocop", "~> 1.28"
   gem "rubocop-faker"
   gem "rubocop-performance", "~> 1.6.0"
   gem "rubocop-rspec", "2.20"
@@ -40,7 +39,7 @@ group :development, :test do
 end
 
 group :development do
-  gem "faker", "~> 3.2.2"
+  gem "faker", "~> 3.2"
   gem "letter_opener_web", "~> 2.0"
   gem "listen", "~> 3.8"
   gem "web-console", "~> 4.2"
